@@ -8,7 +8,8 @@ import articles from '../fixtures'
 
 class App extends Component {
   state = {
-    selected: null
+    selected: null,
+    isShowComments: false
   }
   render() {
     return (
@@ -26,7 +27,11 @@ class App extends Component {
     )
   }
 
-  handleSelectionChange = (selected) => this.setState({ selected })
+  handleSelectionChange = (selected) =>
+    this.setState({ selected, isShowComments: false })
+
+  showCommentsToggle = () =>
+    this.setState({ isShowComments: !this.state.isShowComments })
 
   get options() {
     return articles.map((article) => ({
