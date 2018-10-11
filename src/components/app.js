@@ -5,6 +5,7 @@ import ArticleList from './article-list'
 import ArticleChart from './articles-chart'
 import UserForm from './user-form'
 import articles from '../fixtures'
+import DatePicker from './datePicker'
 
 class App extends Component {
   state = {
@@ -21,6 +22,7 @@ class App extends Component {
           onChange={this.handleSelectionChange}
           isMulti
         />
+        <DatePicker numberOfMonths={2} />
         <ArticleList articles={articles} ref={this.setArticleListRef} />
         <ArticleChart articles={articles} />
       </div>
