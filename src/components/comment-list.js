@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import CSSTransition from 'react-addons-css-transition-group'
 import Comment from './comment'
 import toggleOpen from '../decorators/toggleOpen'
 
@@ -18,7 +19,15 @@ export class CommentList extends Component {
         <button className="test--comments__toogle_button" onClick={toggleOpen}>
           {text}
         </button>
-        {this.getBody()}
+        <CSSTransition
+          transitionAppear
+          transitionName="comment-list"
+          transitionEnterTimeout={500}
+          transitionAppearTimeout={1000}
+          transitionLeaveTimeout={300}
+        >
+          {this.getBody()}
+        </CSSTransition>
       </div>
     )
   }
