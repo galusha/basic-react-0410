@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Comment from './comment'
 import toggleOpen from '../decorators/toggleOpen'
 
-class CommentList extends Component {
+export class CommentList extends Component {
   static propTypes = {
     comments: PropTypes.array.isRequired,
     isOpen: PropTypes.bool,
@@ -15,7 +15,9 @@ class CommentList extends Component {
     const text = isOpen ? 'hide comments' : 'show comments'
     return (
       <div>
-        <button onClick={toggleOpen}>{text}</button>
+        <button className="test--comments__toogle_button" onClick={toggleOpen}>
+          {text}
+        </button>
         {this.getBody()}
       </div>
     )
@@ -27,19 +29,21 @@ class CommentList extends Component {
     if (!isOpen) return null
 
     const body = comments.length ? (
-      <ul>
+      <ul className="test--comments__list">
         {comments.map((comment) => (
-          <li key={comment.id}>
+          <li className="test--comments__item" key={comment.id}>
             <Comment comment={comment} />
           </li>
         ))}
       </ul>
     ) : (
-      <h3>No comments yet</h3>
+      <h3 className="test--comments__empty">No comments yet</h3>
     )
 
     return <div>{body}</div>
   }
 }
 
-export default toggleOpen(CommentList)
+const CommentListWithToggleOpen = toggleOpen(CommentList)
+
+export default CommentListWithToggleOpen
