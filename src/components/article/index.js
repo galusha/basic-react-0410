@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import CSSTransition from 'react-addons-css-transition-group'
 import CommentList from '../comment-list'
 import './style.css'
@@ -6,6 +7,18 @@ import './style.css'
 class Index extends PureComponent {
   state = {
     error: null
+  }
+
+  static propTypes = {
+    article: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+      comments: PropTypes.array
+    }).isRequired,
+    isOpen: PropTypes.bool,
+    toggleOpen: PropTypes.func
   }
 
   componentDidCatch(error) {
@@ -45,7 +58,14 @@ class Index extends PureComponent {
     return (
       <section className="test--article__body">
         {article.text}
-        <CommentList comments={article.comments} />
+        <CommentList comments={article.comments || []} />
+        {/*
+        For Roman: Is it ok to add in CommentsList the construction like this "{article.comments || []}" for 
+        static propTypes = {
+          comments: PropTypes.array.isRequired,
+          ....
+        } in CommentsList component
+      */}
       </section>
     )
   }
