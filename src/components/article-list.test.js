@@ -38,6 +38,32 @@ describe('ArticleList', () => {
     expect(container.find('.test--article__body').length).toEqual(1)
   })
 
+  //The next test Doesn't work
+  it('should close article on second click', async (done) => {
+    const container = mount(<ArticleListWithAccordion articles={articles} />)
+
+    expect(container.find('.test--article__body').length).toEqual(0)
+
+    container
+      .find('.test--article__btn')
+      .at(0)
+      .simulate('click')
+
+    container
+      .find('.test--article__btn')
+      .at(0)
+      .simulate('click')
+
+    let length = await new Promise((resolve) =>
+      setTimeout(() => {
+        resolve(container.find('.test--article__body').length)
+      }, 3000)
+    )
+
+    expect(length).toEqual(0)
+    done()
+  })
+
   it('should should fetch data on mount', () => {
     let functionIsCalled = false
     mount(
