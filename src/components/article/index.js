@@ -30,6 +30,9 @@ class Article extends PureComponent {
       <div>
         <h3>
           {article.title}
+          <div>
+            <i>Date: {article.date}</i>
+          </div>
           <button onClick={this.handleClick} className="test--article__btn">
             {isOpen ? 'close' : 'open'}
           </button>

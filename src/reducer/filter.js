@@ -1,7 +1,7 @@
 import { SET_FILTER } from '../constants'
 
 export default (
-  filterState = { selected: null, dateRange: { from: null, to: null } },
+  filterState = { selected: [], dateRange: { from: null, to: null } },
   action
 ) => {
   const { type, payload } = action
