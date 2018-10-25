@@ -4,6 +4,8 @@ import CSSTransition from 'react-addons-css-transition-group'
 import Comment from '../comment'
 import toggleOpen from '../../decorators/toggleOpen'
 import './style.css'
+import { connect } from 'react-redux'
+import { changeCommentForm } from '../../ac'
 
 class CommentList extends Component {
   static propTypes = {
@@ -20,12 +22,13 @@ class CommentList extends Component {
 */
 
   render() {
+    console.log('this.props', this.props)
     const { isOpen, toggleOpen } = this.props
-    const text = isOpen ? 'hide comments' : 'show comments'
+    const buttonText = isOpen ? 'hide comments' : 'show comments'
     return (
       <div>
         <button onClick={toggleOpen} className="test--comment-list__btn">
-          {text}
+          {buttonText}
         </button>
         <CSSTransition
           transitionName="comments"
@@ -38,12 +41,34 @@ class CommentList extends Component {
     )
   }
 
+  changeCommentForm = (e) => {
+    const { changeCommentForm } = this.props
+    const change = { [e.target.name]: e.target.value }
+
+    changeCommentForm(change)
+  }
+
   getBody() {
-    const { comments = [], isOpen } = this.props
+    const {
+      comments = [],
+      isOpen,
+      comment: { text, author }
+    } = this.props
     if (!isOpen) return null
 
     return (
       <div className="test--comment-list__body">
+        <form onChange={this.changeCommentForm} className="comment-form">
+          <label>
+            Comment Text
+            <input defaultValue={text} name="text" />
+          </label>
+          <label>
+            Author
+            <input defaultValue={author} name="author" />
+          </label>
+          <button>Add New Comment</button>
+        </form>
         {comments.length ? (
           this.comments
         ) : (
@@ -66,4 +91,11 @@ class CommentList extends Component {
   }
 }
 
-export default toggleOpen(CommentList)
+export default connect(
+  (state) => ({
+    comment: state.forms.comment
+  }),
+  {
+    changeCommentForm
+  }
+)(toggleOpen(CommentList))
