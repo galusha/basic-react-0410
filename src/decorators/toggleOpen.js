@@ -11,7 +11,9 @@ export default (OriginalComponent) =>
         isOpen: !state.isOpen
       }))
 
-      callback(this.state)
+      if (callback) {
+        callback(this.state)
+      }
     }
 
     render() {
