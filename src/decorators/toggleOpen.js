@@ -6,10 +6,13 @@ export default (OriginalComponent) =>
       isOpen: false
     }
 
-    toggleOpen = () =>
+    toggleOpen = (callback) => {
       this.setState((state) => ({
         isOpen: !state.isOpen
       }))
+
+      callback(this.state)
+    }
 
     render() {
       return (

@@ -1,5 +1,5 @@
 import { normalizedArticles } from '../fixtures'
-import { DELETE_ARTICLE } from '../constants'
+import { DELETE_ARTICLE, ADD_NEW_COMMENT } from '../constants'
 
 const defaultArticles = new Map()
 
@@ -15,6 +15,15 @@ export default (articlesState = defaultArticles, action) => {
       articlesState.delete(payload.id)
       return new Map(articlesState)
 
+    case ADD_NEW_COMMENT:
+      const { comment, articleId } = payload
+      const commentId = comment.id
+      const articles = new Map(articlesState)
+      const article = articles.get(articleId)
+
+      article.comments.push(commentId)
+      articles.set(articleId, article)
+      return articles
     default:
       return articlesState
   }

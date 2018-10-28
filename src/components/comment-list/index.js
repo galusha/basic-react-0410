@@ -5,7 +5,12 @@ import Comment from '../comment'
 import toggleOpen from '../../decorators/toggleOpen'
 import './style.css'
 import { connect } from 'react-redux'
-import { changeCommentForm } from '../../ac'
+import {
+  changeCommentForm,
+  addNewComment,
+  setValidationError,
+  clearForm
+} from '../../ac'
 
 class CommentList extends Component {
   static propTypes = {
@@ -15,19 +20,12 @@ class CommentList extends Component {
     toggleOpen: PropTypes.func
   }
 
-  /*
-  static defaultProps = {
-    comments: []
-  }
-*/
-
   render() {
-    console.log('this.props', this.props)
-    const { isOpen, toggleOpen } = this.props
+    const { isOpen } = this.props
     const buttonText = isOpen ? 'hide comments' : 'show comments'
     return (
       <div>
-        <button onClick={toggleOpen} className="test--comment-list__btn">
+        <button onClick={this.toggleOpen} className="test--comment-list__btn">
           {buttonText}
         </button>
         <CSSTransition
@@ -41,6 +39,18 @@ class CommentList extends Component {
     )
   }
 
+  toggleOpen = () => {
+    const { toggleOpen } = this.props
+    toggleOpen(this.clearCommentForm)
+  }
+
+  clearCommentForm = (toogleState) => {
+    if (!toogleState.isOpen) {
+      const { clearForm } = this.props
+      clearForm('addNewComment')
+    }
+  }
+
   changeCommentForm = (e) => {
     const { changeCommentForm } = this.props
     const change = { [e.target.name]: e.target.value }
@@ -48,24 +58,56 @@ class CommentList extends Component {
     changeCommentForm(change)
   }
 
+  addNewComment = (e) => {
+    e.preventDefault()
+
+    const formName = e.target.name
+    const {
+      addNewCommentForm: { comment },
+      addNewComment,
+      articleId
+    } = this.props
+
+    if (this.validateComment(comment, formName)) {
+      addNewComment(comment, articleId)
+    }
+  }
+
+  validateComment = (comment, formName) => {
+    if (comment.text && comment.user) {
+      return true
+    } else {
+      const { setValidationError } = this.props
+      setValidationError(formName, 'Text or Author field is empty')
+    }
+  }
+
   getBody() {
     const {
       comments = [],
       isOpen,
-      comment: { text, author }
+      addNewCommentForm: {
+        comment: { text, user },
+        validationError
+      }
     } = this.props
     if (!isOpen) return null
 
     return (
       <div className="test--comment-list__body">
-        <form onChange={this.changeCommentForm} className="comment-form">
+        <div className="error">{validationError}</div>
+        <form
+          className="comment-form"
+          name="addNewComment"
+          onSubmit={this.addNewComment}
+        >
           <label>
             Comment Text
-            <input defaultValue={text} name="text" />
+            <input value={text} name="text" onChange={this.changeCommentForm} />
           </label>
           <label>
             Author
-            <input defaultValue={author} name="author" />
+            <input value={user} name="user" onChange={this.changeCommentForm} />
           </label>
           <button>Add New Comment</button>
         </form>
@@ -93,9 +135,12 @@ class CommentList extends Component {
 
 export default connect(
   (state) => ({
-    comment: state.forms.comment
+    addNewCommentForm: state.forms.addNewComment
   }),
   {
-    changeCommentForm
+    changeCommentForm,
+    addNewComment,
+    setValidationError,
+    clearForm
   }
 )(toggleOpen(CommentList))

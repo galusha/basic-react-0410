@@ -1,4 +1,5 @@
 export default (store) => (next) => (action) => {
+  console.log('Logger')
   console.log('---', 'before: ', store.getState())
   console.log('---', 'dispatching: ', action)
   next(action)
