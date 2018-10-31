@@ -7,10 +7,6 @@ export const articlesMapSelector = (state) => state.articles.entities
 export const articleListSelector = createSelector(
   articlesMapSelector,
   (articlesMap) => {
-    console.log(
-      '!!!!!articlesMap.valueSeq().toArray()',
-      articlesMap.valueSeq().toArray()
-    )
     return articlesMap.valueSeq().toArray()
   }
 )
@@ -40,7 +36,7 @@ export const filtratedArticlesSelector = createSelector(
 
 export const createCommentSelector = () =>
   createSelector(commentsSelector, idSelector, (comments, id) => {
-    //console.log('selectoer', id, 'comments', comments)
-    // return comments.get(id)
+    console.log('selectoer', id, 'comments', comments)
+    //return comments.get(id)
     return comments[id]
   })

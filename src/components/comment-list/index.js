@@ -3,8 +3,12 @@ import PropTypes from 'prop-types'
 import CSSTransition from 'react-addons-css-transition-group'
 import Comment from '../comment'
 import CommentForm from '../comment-form'
+import { connect } from 'react-redux'
 import toggleOpen from '../../decorators/toggleOpen'
+import Loader from '../common/loader'
 import './style.css'
+
+import { loadCommentsByArticleId } from '../../ac'
 
 class CommentList extends Component {
   static propTypes = {
@@ -19,6 +23,12 @@ class CommentList extends Component {
     comments: []
   }
 */
+
+  componentDidUpdate(oldProps) {
+    const { isOpen, loadCommentsByArticleId, article } = this.props
+    if (!oldProps.isOpen && isOpen && !article.commentsLoaded)
+      loadCommentsByArticleId(article.id)
+  }
 
   render() {
     const { isOpen, toggleOpen } = this.props
@@ -41,26 +51,28 @@ class CommentList extends Component {
 
   getBody() {
     const {
-      article: { id, comments = [] },
+      article: { id, commentsLoaded, comments = [] },
       isOpen
     } = this.props
     if (!isOpen) return null
 
-    console.log('---->comments', comments)
+    console.log('commentsLoaded', commentsLoaded)
 
     return (
       <div className="test--comment-list__body">
-        {comments.length ? (
-          this.comments
-        ) : (
-          <h3 className="test--comment-list__empty">No comments yet</h3>
-        )}
+        {(!commentsLoaded && <Loader />) ||
+          (comments.length ? (
+            this.comments
+          ) : (
+            <h3 className="test--comment-list__empty">No comments yet</h3>
+          ))}
         <CommentForm articleId={id} />
       </div>
     )
   }
 
   get comments() {
+    console.log('---->comments', this.props.article.comments)
     return (
       <ul>
         {this.props.article.comments.map((id) => (
@@ -73,4 +85,7 @@ class CommentList extends Component {
   }
 }
 
-export default toggleOpen(CommentList)
+export default connect(
+  null,
+  { loadCommentsByArticleId }
+)(toggleOpen(CommentList))
