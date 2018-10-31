@@ -46,6 +46,8 @@ class CommentList extends Component {
     } = this.props
     if (!isOpen) return null
 
+    console.log('---->comments', comments)
+
     return (
       <div className="test--comment-list__body">
         {comments.length ? (

@@ -35,7 +35,10 @@ export default (state = new ReducerRecord(), action) => {
     case ADD_COMMENT:
       return state.updateIn(
         ['entities', payload.articleId, 'comments'],
-        (comments) => comments.push(randomId)
+        (comments) => {
+          comments.push(randomId)
+          return comments
+        }
       )
 
     case LOAD_ALL_ARTICLES + START:

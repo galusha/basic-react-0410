@@ -42,7 +42,7 @@ class CommentForm extends Component {
 
   isValidForm = () => ['user', 'text'].every(this.isValidField)
 
-  isValidField = (type) => this.state[type].length >= limits[type].min
+  isValidField = (type) => true //this.state[type].length >= limits[type].min
 
   getClassName = (type) => (this.isValidField(type) ? '' : 'form-input__error')
 
