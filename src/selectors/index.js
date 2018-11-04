@@ -67,5 +67,7 @@ export const createCommentSelector = () =>
 export const articleSelector = createSelector(
   articlesMapSelector,
   idSelector,
-  (articles, id) => articles.get(id)
+  (articles, id) => {
+    return articles.get(id)
+  }
 )

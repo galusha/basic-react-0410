@@ -7,7 +7,7 @@ class ArticlesPage extends Component {
   static propTypes = {}
 
   render() {
-    console.log('---', 'articles-page match: ', this.props.match)
+    console.log('---', 'articles-page match: ', this.props)
     //      const title = this.props.match.isExact && <h1>Select an Article</h1>
     return (
       <Fragment>

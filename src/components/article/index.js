@@ -35,6 +35,7 @@ class Article extends PureComponent {
 
   render() {
     const { article } = this.props
+
     if (!article) return null
 
     return (
@@ -63,6 +64,7 @@ class Article extends PureComponent {
 
   get body() {
     const { isOpen, article } = this.props
+
     if (!isOpen) return null
     if (this.state.error) return <h3>Error</h3>
     if (article.loading) return <Loader />
