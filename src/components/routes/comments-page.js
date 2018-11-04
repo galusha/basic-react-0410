@@ -23,19 +23,39 @@ class CommentsPage extends Component {
     loadCommentsByPage(page, step, isLoaded)
   }
 
+  componentDidMount() {
+    const {
+      loadCommentsByPage,
+      match: {
+        params: { page: currentPage }
+      }
+    } = this.props
+    loadCommentsByPage(currentPage)
+  }
+
   render() {
-    const { comments, count, currentPage, step, loading, loaded } = this.props
+    const {
+      comments,
+      count,
+      step,
+      loading,
+      match: {
+        params: { page: currentPage }
+      }
+    } = this.props
+    const pagesCount = (count && Math.ceil(count / step)) || 0
 
     return (
       <Fragment>
         <Pagination
           currentPage={currentPage}
-          step={step}
-          count={count}
+          pagesCount={pagesCount}
           fetchData={this.loadCommentsByPage}
         />
         {loading ? (
           <Loader />
+        ) : !currentPage || currentPage > pagesCount ? (
+          <h1>Please Select Page from 1 to {pagesCount} </h1>
         ) : (
           comments &&
           comments.map((id) => {

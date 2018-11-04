@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { NavLink } from 'react-router-dom'
 
 class Pagination extends Component {
   static propTypes = {
@@ -7,30 +8,24 @@ class Pagination extends Component {
     fetchData: PropTypes.func.isRequired
   }
 
-  componentDidMount() {
-    const { fetchData, step, count } = this.props
-    fetchData(1, step, count)
-  }
-
   changePage(page) {
-    const { fetchData, count, step } = this.props
-    const pages = (count && Math.ceil(count / step)) || 0
-
-    if (!page || page > pages) return
+    const { fetchData } = this.props
     fetchData(page)
   }
 
   render() {
-    const { count, fetchData, step, currentPage = 1 } = this.props
-    const pages = (count && Math.ceil(count / step)) || 0
-    const pagesArr = Array.from({ length: pages }, (v, i) => i + 1)
+    const { pagesCount, currentPage = 1 } = this.props
+    const pagesArr = Array.from({ length: pagesCount }, (v, i) => i + 1)
 
     return (
       <nav aria-label="Page navigation example">
         <ul>
-          <li onClick={() => this.changePage(currentPage - 1)}>
-            <a href="#">Previous</a>
-          </li>
+          <NavLink
+            to={`/comments/${currentPage - 1 < 1 ? 1 : currentPage - 1}`}
+            activeStyle={{ color: 'red' }}
+          >
+            Previous
+          </NavLink>
           {pagesArr &&
             pagesArr.map((item) => {
               return (
@@ -39,18 +34,23 @@ class Pagination extends Component {
                   style={{ color: item === currentPage ? 'red' : 'blue' }}
                   onClick={() => this.changePage(item)}
                 >
-                  <a
-                    style={{ color: item === currentPage ? 'red' : 'blue' }}
-                    href="#"
+                  <NavLink
+                    to={`/comments/${item}`}
+                    activeStyle={{ color: 'red' }}
                   >
                     {item}
-                  </a>
+                  </NavLink>
                 </li>
               )
             })}
-          <li onClick={() => this.changePage(currentPage + 1)}>
-            <a href="#">Next</a>
-          </li>
+          <NavLink
+            to={`/comments/${
+              +currentPage + 1 > pagesCount ? currentPage : +currentPage + 1
+            }`}
+            activeStyle={{ color: 'red' }}
+          >
+            Next
+          </NavLink>
         </ul>
       </nav>
     )
