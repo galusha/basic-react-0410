@@ -2,17 +2,7 @@ import React, { Component } from 'react'
 import Select from 'react-select'
 import { withRouter, matchPath } from 'react-router-dom'
 import { replace, push } from 'connected-react-router'
-
-const languages = {
-  en: {
-    en: 'English',
-    ru: 'Russian'
-  },
-  ru: {
-    en: 'Английский',
-    ru: 'Русский'
-  }
-}
+const languages = require('../translations/language.json')
 
 class LanguageSelect extends Component {
   componentDidMount = (props) => {
