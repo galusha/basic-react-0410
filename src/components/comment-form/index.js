@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addComment } from '../../ac'
+import { Consumer as LanguageConsumer } from '../../contexts/language'
 import './style.css'
+const formTranslations = require('../../translations/form.json')
 
 class CommentForm extends Component {
   static propTypes = {}
@@ -14,19 +16,31 @@ class CommentForm extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        user:{' '}
+        <LanguageConsumer>
+          {(lng) => `${formTranslations[lng].username}:${' '}`}
+        </LanguageConsumer>
         <input
           value={this.state.user}
           onChange={this.handleChange('user')}
           className={this.getClassName('user')}
         />
-        comment:{' '}
+        <LanguageConsumer>
+          {(lng) => `${formTranslations[lng].comment}:${' '}`}
+        </LanguageConsumer>
         <input
           value={this.state.text}
           onChange={this.handleChange('text')}
           className={this.getClassName('text')}
         />
-        <input type="submit" value="submit" disabled={!this.isValidForm()} />
+        <LanguageConsumer>
+          {(lng) => (
+            <input
+              type="submit"
+              value={formTranslations[lng].submit}
+              disabled={!this.isValidForm()}
+            />
+          )}
+        </LanguageConsumer>
       </form>
     )
   }

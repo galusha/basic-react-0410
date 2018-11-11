@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Consumer as LanguageConsumer } from '../contexts/language'
-const userFormTranslations = require('../translations/user-form.json')
+const formTranslations = require('../translations/form.json')
 
 class UserForm extends Component {
   render() {
@@ -8,7 +8,7 @@ class UserForm extends Component {
       <LanguageConsumer>
         {(lng) => (
           <div>
-            {userFormTranslations[lng].username}:{' '}
+            {formTranslations[lng].username}:{' '}
             <input value={this.props.value} onChange={this.handleUserChange} />
           </div>
         )}

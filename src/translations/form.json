@@ -1,0 +1,12 @@
+{
+  "en": {
+    "username": "Username",
+    "comment": "Comment",
+    "submit": "Submit"
+  },
+  "ru": {
+    "username": "Имя пользователя",
+    "comment": "Комментарий",
+    "submit": "Сохранить"
+  }
+}

@@ -9,6 +9,8 @@ import { loadArticleComments } from '../../ac'
 import './style.css'
 import Loader from '../common/loader'
 import { Consumer as UserConsumer } from '../../contexts/user'
+import { Consumer as LanguageConsumer } from '../../contexts/language'
+const articleTranslations = require('../../translations/article.json')
 
 class CommentList extends Component {
   static propTypes = {
@@ -37,11 +39,13 @@ class CommentList extends Component {
 
   render() {
     const { isOpen, toggleOpen } = this.props
-    const text = isOpen ? 'hide comments' : 'show comments'
+    const text = isOpen ? 'hideComments' : 'showComments'
     return (
       <div>
         <button onClick={toggleOpen} className="test__comment-list--btn">
-          {text}
+          <LanguageConsumer>
+            {(lng) => articleTranslations[lng][text]}
+          </LanguageConsumer>
         </button>
         <CSSTransition
           transitionName="comments"
@@ -71,7 +75,11 @@ class CommentList extends Component {
         {comments.length ? (
           this.comments
         ) : (
-          <h3 className="test__comment-list--empty">No comments yet</h3>
+          <h3 className="test__comment-list--empty">
+            <LanguageConsumer>
+              {(lng) => articleTranslations[lng].noComments}
+            </LanguageConsumer>
+          </h3>
         )}
         <CommentForm articleId={id} />
       </div>

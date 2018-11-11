@@ -1,8 +1,19 @@
 {
   "en": {
-    "empty": "Please Select An Article"
+    "empty": "Please Select An Article",
+    "showComments": "Show Comments",
+    "delete": "Delete",
+    "noComments": "No comments",
+    "hideComments": "Hide comments",
+    "showComments": "Show comments"
+
   },
   "ru": {
-    "empty": "Пожалуйста, выберите статью"
+    "empty": "Пожалуйста, выберите статью",
+    "showComments": "Показать комментарии",
+    "delete": "Удалить",
+    "noComments": "Пока нет комментариев к этой статье",
+    "hideComments": "Скрыть комментарии",
+    "showComments": "Показать комментарии"
   }
 }
