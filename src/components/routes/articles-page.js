@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react'
+import { Consumer as LanguageConsumer } from '../../contexts/language'
 import ArticleList from '../article-list'
 import { Route } from 'react-router-dom'
 import Article from '../article'
+const articleTranslations = require('../../translations/article.json')
 
 class ArticlesPage extends Component {
   static propTypes = {}
@@ -21,7 +23,12 @@ class ArticlesPage extends Component {
   getArticle = ({ match }) => {
     console.log('---', 'article match: ', match)
 
-    if (!match) return <h1>Please Select An Article</h1>
+    if (!match)
+      return (
+        <LanguageConsumer>
+          {(lng) => <h1>{articleTranslations[lng].empty}</h1>}
+        </LanguageConsumer>
+      )
 
     const { id } = match.params
     return <Article id={id} key={id} isOpen />

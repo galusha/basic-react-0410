@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import DayPicker, { DateUtils } from 'react-day-picker'
+import MomentLocaleUtils from 'react-day-picker/moment'
+import 'moment/locale/ru'
 import { connect } from 'react-redux'
 import { changeDateRange } from '../../ac'
+import { Consumer as LanguageConsumer } from '../../contexts/language'
 
 import 'react-day-picker/lib/style.css'
 import { dateRangeSelector } from '../../selectors'
@@ -18,10 +21,16 @@ class DateRange extends Component {
       from && to && `${from.toDateString()} - ${to.toDateString()}`
     return (
       <div className="date-range">
-        <DayPicker
-          selectedDays={(day) => DateUtils.isDayInRange(day, { from, to })}
-          onDayClick={this.handleDayClick}
-        />
+        <LanguageConsumer>
+          {(lng) => (
+            <DayPicker
+              localeUtils={MomentLocaleUtils}
+              locale={lng}
+              selectedDays={(day) => DateUtils.isDayInRange(day, { from, to })}
+              onDayClick={this.handleDayClick}
+            />
+          )}
+        </LanguageConsumer>
         {selectedRange}
       </div>
     )

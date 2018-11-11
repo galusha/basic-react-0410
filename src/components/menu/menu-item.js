@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
+import { Consumer as LanguageConsumer } from '../../contexts/language'
+const menuTranslations = require('../../translations/menu.json')
 
 class MenuItem extends Component {
   static propTypes = {}
@@ -8,9 +10,13 @@ class MenuItem extends Component {
     const { link, children } = this.props
     return (
       <div>
-        <NavLink to={link} activeStyle={{ color: 'red' }}>
-          {children}
-        </NavLink>
+        <LanguageConsumer>
+          {(lng) => (
+            <NavLink to={link} activeStyle={{ color: 'red' }}>
+              {menuTranslations[lng][children]}
+            </NavLink>
+          )}
+        </LanguageConsumer>
       </div>
     )
   }
