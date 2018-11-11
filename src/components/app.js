@@ -21,30 +21,32 @@ class App extends Component {
   setLanguage = (lng) => this.setState({ lng })
 
   render() {
+    const { lng } = this.state
     return (
       <UserProvider value={this.state.user}>
         <div>
           <LanguageSelect lng={this.state.lng} onChange={this.setLanguage} />
           <LanguageProvider value={this.state.lng}>
             <Menu>
-              <MenuItem link="/articles" children="articles" />
-              <MenuItem link="/filters">filters</MenuItem>
-              <MenuItem link="/counter">counter</MenuItem>
-              <MenuItem link="/comments">comments</MenuItem>
+              <MenuItem link={`/${lng}/articles`} children="articles" />
+              <MenuItem link={`/${lng}/filters`}>filters</MenuItem>
+              <MenuItem link={`/${lng}/counter`}>counter</MenuItem>
+              <MenuItem link={`/${lng}/comments`}>comments</MenuItem>
             </Menu>
             <UserForm value={this.state.user} onChange={this.setUser} />
 
             <Switch>
-              <Redirect from="/" exact to="/articles" />
-              <Route path="/counter" component={Counter} exact />
-              <Route path="/comments" component={CommentsPage} />
-              <Route path="/filters" component={Filters} />
+              <Redirect from="/" exact to={`/${lng}/articles`} />
+              <Redirect from="/:lng/" exact to={`/${lng}/articles`} />
+              <Route path={`/:lng/counter`} component={Counter} exact />
+              <Route path={`/:lng/comments`} component={CommentsPage} />
+              <Route path={`/:lng/filters`} component={Filters} />
               <Route
-                path="/articles/new"
+                path={`/:lng/articles/new`}
                 render={() => <h1>New Article Page</h1>}
               />
-              <Route path="/articles" component={ArticlesPage} />
-              <Route path="/error" render={() => <h1>Error Page</h1>} />
+              <Route path={`/:lng/articles`} component={ArticlesPage} />
+              <Route path={`/:lng/error`} render={() => <h1>Error Page</h1>} />
               <Route
                 path="*"
                 render={() => (

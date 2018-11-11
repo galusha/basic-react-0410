@@ -15,7 +15,11 @@ class ArticlesPage extends Component {
     return (
       <Fragment>
         <ArticleList />
-        <Route path="/articles/:id" children={this.getArticle} />
+        <LanguageConsumer>
+          {(lng) => (
+            <Route path={`/${lng}/articles/:id`} children={this.getArticle} />
+          )}
+        </LanguageConsumer>
       </Fragment>
     )
   }

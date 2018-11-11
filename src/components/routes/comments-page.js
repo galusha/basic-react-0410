@@ -1,12 +1,15 @@
 import React from 'react'
 import CommentsPagination from '../comments-pagination'
 import { Route, Redirect } from 'react-router-dom'
+import { Consumer as LanguageConsumer } from '../../contexts/language'
 
 function CommentsPage({ match }) {
   return match.isExact ? (
-    <Redirect to="/comments/1" />
+    <LanguageConsumer>
+      {(lng) => <Redirect to={`/${lng}/comments/1`} />}
+    </LanguageConsumer>
   ) : (
-    <Route path="/comments/:page" render={getCommentsPaginator} />
+    <Route path="/:lng/comments/:page" render={getCommentsPaginator} />
   )
 }
 

@@ -9,6 +9,7 @@ import {
   commentsPageIdsSelector,
   totalCommentsSelector
 } from '../selectors/index'
+import { Consumer as LanguageConsumer } from '../contexts/language'
 
 class CommentsPagination extends Component {
   componentDidMount() {
@@ -48,9 +49,16 @@ class CommentsPagination extends Component {
       .fill()
       .map((_, i) => (
         <li key={i}>
-          <NavLink to={`/comments/${i + 1}`} activeStyle={{ color: 'red' }}>
-            {i + 1}
-          </NavLink>
+          <LanguageConsumer>
+            {(lng) => (
+              <NavLink
+                to={`/${lng}/comments/${i + 1}`}
+                activeStyle={{ color: 'red' }}
+              >
+                {i + 1}
+              </NavLink>
+            )}
+          </LanguageConsumer>
         </li>
       ))
     return <ul>{items}</ul>

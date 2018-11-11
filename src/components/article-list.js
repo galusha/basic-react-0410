@@ -9,6 +9,7 @@ import {
 import { loadAllArticles } from '../ac'
 import Loader from './common/loader'
 import { NavLink, withRouter } from 'react-router-dom'
+import { Consumer as LanguageConsumer } from '../contexts/language'
 
 export class ArticleList extends Component {
   static propTypes = {
@@ -26,9 +27,16 @@ export class ArticleList extends Component {
     const { articles } = this.props
     return articles.map((article) => (
       <li key={article.id} className="test--article-list__item">
-        <NavLink to={`/articles/${article.id}`} activeStyle={{ color: 'red' }}>
-          {article.title}
-        </NavLink>
+        <LanguageConsumer>
+          {(lng) => (
+            <NavLink
+              to={`/${lng}/articles/${article.id}`}
+              activeStyle={{ color: 'red' }}
+            >
+              {article.title}
+            </NavLink>
+          )}
+        </LanguageConsumer>
       </li>
     ))
   }
